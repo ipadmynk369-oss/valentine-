@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Be My Valentine?</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      overflow: hidden;
+    }
+
+    .box {
+      text-align: center;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0px 10px 25px rgba(0,0,0,0.2);
+      z-index: 10;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: #ff2d55;
+      margin-bottom: 30px;
+    }
+
+    button {
+      font-size: 1.2rem;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+      margin: 10px;
+    }
+
+    #yesBtn {
+      background: #ff2d55;
+      color: white;
+    }
+
+    #yesBtn:hover {
+      background: #e6003a;
+      transform: scale(1.05);
+    }
+
+    #noBtn {
+      background: #444;
+      color: white;
+      position: absolute;
+    }
+
+    #msg {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #333;
+      font-weight: bold;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      animation: floatUp 6s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-800px) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* Love letter popup */
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 50;
+    }
+
+    .popup-content {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0px 10px 30px rgba(0,0,0,0.3);
+      animation: pop 0.4s ease;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .popup-content h2 {
+      color: #ff2d55;
+      margin-bottom: 15px;
+    }
+
+    .popup-content p {
+      font-size: 1.1rem;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .closeBtn {
+      margin-top: 20px;
+      background: #ff2d55;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .closeBtn:hover {
+      background: #e6003a;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+    <h1>💖 Will You Be My Valentine? 💖</h1>
+
+    <button id="yesBtn">Yes 😍</button>
+    <button id="noBtn">No 🙄</button>
+
+    <div id="msg"></div>
+  </div>
+
+  <!-- Love Letter Popup -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <h2>💌 My Love Letter For You 💌</h2>
+      <p>
+        Heyyy ❤️<br><br>
+        I just want to say... you are the cutest part of my life 😭✨  
+        Every moment feels better when you're around.  
+        You're my favorite notification, my favorite smile, and my favorite person 💕  
+        <br><br>
+        Sooo... thank you for saying YES 😍🌹  
+        <br><br>
+        Happy Valentine’s Day ❤️
+      </p>
+
+      <button class="closeBtn" onclick="closePopup()">Aww ❤️</button>
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const msg = document.getElementById("msg");
+    const popup = document.getElementById("popup");
+
+    // Random No button position
+    function randomPosition() {
+      const x = Math.random() * (window.innerWidth - 120);
+      const y = Math.random() * (window.innerHeight - 60);
+
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
+
+    randomPosition();
+
+    // No button runs away 😈
+    noBtn.addEventListener("mouseover", () => {
+      msg.innerText = "Wrong answer 😤 Try again!";
+      randomPosition();
+    });
+
+    noBtn.addEventListener("click", () => {
+      msg.innerText = "No is not allowed 😈❤️";
+      randomPosition();
+    });
+
+    // YES button opens love letter
+    yesBtn.addEventListener("click", () => {
+      msg.innerText = "YAYYY ❤️😍 I knew it!!!";
+      popup.style.display = "flex";
+    });
+
+    function closePopup() {
+      popup.style.display = "none";
+    }
+
+    // Floating hearts generator
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "💖";
+
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      heart.style.bottom = "-30px";
+
+      const size = Math.random() * 20 + 15;
+      heart.style.fontSize = size + "px";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+
+    setInterval(createHeart, 300);
+  </script>
+
+</body>
+</html>
